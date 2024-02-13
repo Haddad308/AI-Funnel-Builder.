@@ -10,6 +10,7 @@ import {
     DialogBody,
     DialogFooter,
 } from "@material-tailwind/react";
+import hr from "../assets/Images/Vector 6.svg"
 
 export function AddStep({ steps, setSteps }) {
 
@@ -80,6 +81,8 @@ export function AddStep({ steps, setSteps }) {
             />
             <Dialog open={open} size={"md"} handler={handleButtonClick} className="flex flex-col justify-center items-center bg-[#FBFBFE]">
                 <DialogHeader className="text-[#0C0C27] text-3xl font-semibold  self-start " >Add New Step</DialogHeader>
+                <img src={hr} alt="" />
+
                 <DialogBody className="grid gap-5  w-full " >
                     {mainSteps.map(({ name }, index) => (
                         <div key={index} className={`p-5 cursor-pointer rounded-md shadow-md w-full ${selected === index ? "bg-[#E6E6ED]" : "bg-white"} `} onClick={() => handleClick(index)}>

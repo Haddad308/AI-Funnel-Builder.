@@ -9,6 +9,7 @@ import {
     DialogBody,
     DialogFooter,
 } from "@material-tailwind/react";
+import hr from "../assets/Images/Vector 6.svg"
 
 export function DeleteStep({ selected, index, setSteps }) {
     const [open, setOpen] = React.useState(false);
@@ -33,6 +34,8 @@ export function DeleteStep({ selected, index, setSteps }) {
 
             <Dialog open={open} handler={handleOpen}>
                 <DialogHeader>Delete Step</DialogHeader>
+                <img src={hr} alt="" />
+
                 <DialogBody>
                     Are You sure do you want to delete this step?
                 </DialogBody>

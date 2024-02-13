@@ -7,16 +7,17 @@ import Layout from "./components/Layout"
 
 
 let routers = createBrowserRouter([
-  {path: "", element: <Layout />, children:[
-    { index:true, element: <Funnels /> },
-    { path: "FunnelBuilder", element: <FunnelBuilder /> },
-    { path: "Gallery", element: <Gallery /> },
-    { path: "QuestionsForm", element: <QuestionsForm /> }
-  ]}
+  {
+    path: "", element: <Layout />, children: [
+      { index: true, element: <Funnels /> },
+      { path: "FunnelBuilder", element: <FunnelBuilder /> },
+      { path: "Gallery", element: <Gallery /> },
+      { path: "QuestionsForm", element: <QuestionsForm /> }
+    ]
+  }
 ]);
 
 function App() {
-
   return (
       <RouterProvider router={routers} />
   )

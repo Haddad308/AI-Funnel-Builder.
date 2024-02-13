@@ -1,5 +1,6 @@
 import { Button, DialogFooter } from "@material-tailwind/react";
 import Question from "../components/Question";
+import { Link } from "react-router-dom";
 
 
 export default function QuestionsForm() {
@@ -19,7 +20,9 @@ export default function QuestionsForm() {
           color="gray"
           className="mr-1"
         >
-          <span>Close</span>
+          <Link to={"/gallery"} >
+            <span>Close</span>
+          </Link>
         </Button>
         <Button variant="gradient" color="black" >
           <span>Submit</span>

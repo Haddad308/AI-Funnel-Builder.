@@ -19,7 +19,7 @@ export default function Funnels() {
                 <FunnelCard text={"Appointment"} Icon={AppointmentIcon} />
                 <FunnelCard text={"Webinar"} Icon={WebinarIcon} />
                 <FunnelCard text={"Coupon"} Icon={CouponIcon} />
-                <FunnelCard text={"Sales Funnel"} Icon={SalesFunnel2Icon} />
+                <FunnelCard text={"Sales Funnel"} Icon={SalesFunnel2Icon}  />
             </div>
         </div>
     )

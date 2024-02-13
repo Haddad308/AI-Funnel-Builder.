@@ -1,84 +1,127 @@
 import { Button } from "@material-tailwind/react";
-import DoneIcon from "../assets/Images/Success.svg"
-import empytIcon from "../assets/Images/Not.svg"
-import DragIcon from "../assets/Images/8872333_more_horizontal_icon 1.svg"
 import { useState } from "react";
 import { AddStep } from "../components/AddStep";
 import StatusButton from "../components/StatusButton"
-import { DeleteStep } from "../components/DeleteStep";
+import SortableItem from "../components/SortableItem";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { DndContext, closestCorners } from "@dnd-kit/core";
+import { PointerSensor, useSensor, useSensors } from "@dnd-kit/core"
+import { Link } from "react-router-dom";
+
 export default function FunnelBuilder() {
-  // Todo: Handle the right box by viewing the selected part 
 
   const [selected, setSelected] = useState(0);
   const [steps, setSteps] = useState([
     {
-      "id": 1,
+      "id": 21,
       "name": "Create a Sign up Page",
       "status": "created",
       "reference": null,
       "description": "This a description 1"
     },
     {
-      "id": 2,
+      "id": 312,
       "name": "Create an order form",
       "status": "empty",
       "reference": null,
       "description": "This a description 2"
     },
     {
-      "id": 3,
+      "id": 32,
       "name": "Create an Email",
       "status": "empty",
       "reference": null,
       "description": "This a description 3"
     },
     {
-      "id": 4,
+      "id": 313,
       "name": "Create an Event",
       "status": "empty",
       "reference": null,
       "description": "This a description 4"
     },
     {
-      "id": 5,
+      "id": 3131,
       "name": "Create a Thank you Page",
       "status": "created",
       "reference": null,
       "description": "This a description 5"
     }
-    // ,
-    // {
-    //   "id": 5,
-    //   "name": "Create a Thank you Page",
-    //   "status": "created",
-    //   "reference": null
-    // }
   ]);
+
+
+  function changeIndex(items, activeID, overID) {
+    // Find the indexes of the items with the provided IDs
+    const activeIndex = items.findIndex(item => item.id === activeID);
+    const overIndex = items.findIndex(item => item.id === overID);
+
+    // Check if both IDs are found
+    if (activeIndex === -1 || overIndex === -1) {
+      console.error("One or both of the provided IDs are not found in the list.");
+      return items; // Return the original list if any ID is not found
+    }
+
+    // Create a new array to avoid mutating the original
+    const newItems = [...items];
+
+    // Swap the items in the new array
+    const temp = newItems[activeIndex];
+    newItems[activeIndex] = newItems[overIndex];
+    newItems[overIndex] = temp;
+
+    console.log("Test function", newItems);
+    return newItems;
+  }
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      setSteps((items) => {
+        const updatedItems = changeIndex(items, active.id, over.id);
+        // Check if the selected index needs to be updated
+        const selectedIndex = items.findIndex(item => item.id === active.id);
+        const newIndex = updatedItems.findIndex(item => item.id === active.id);
+        if (selectedIndex !== newIndex) {
+          setSelected(newIndex);
+        }
+        return updatedItems;
+      });
+    }
+  }
+
   const handleClick = (elementNumber) => {
-    setSelected(elementNumber === selected ? null : elementNumber);
+    setSelected(elementNumber);
   };
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  )
 
-  console.log(steps.length);
   return (
     <div className="flex  h-full py-10 gap-5  " >
       {/* left Section */}
-      <div id="description" className="w-1/2 bg-white border-t-[6px] border-black rounded-lg p-10 shadow-md " >
-        {steps.length === 0 ? <p className="font-medium text-xl text-[#0C0C27] mb-10">There are No steps </p> : <>
+      <div id="description" className="w-1/2 bg-white border-t-[6px] border-black rounded-lg p-10 shadow-md  flex flex-col" >
+        {(steps.length === 0) || (selected === null) ? <p className="font-semibold text-xl text-[#0C0C27] self-center pt-56 mb-10">There are No step selected. </p> : <>
           <StatusButton status={steps[selected]?.status} />
           <h1 className="font-semibold text-2xl text-[#0C0C27] mb-10" >{steps[selected]?.name}</h1>
           <p className="font-medium text-xl text-[#0C0C27] mb-10">{steps[selected]?.description}</p>
           <div>
             <h2 className="text-[#0C0C27] text-2xl font-semibold mb-5" >Template Name</h2>
-            <Button className="bg-[#F58529] normal-case font-semibold text-xl"  >Add Template </Button>
+            <Link to={"/gallery"} >
+            <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl"  >Add Template </Button>
+            </Link>
           </div>
         </>
         }
-
       </div>
+
       {/* Right Section */}
       <div className="w-1/2 flex flex-col gap-5">
-
         {/* Add new Step */}
         <div className="w-full flex items-center justify-between " >
           <div className="bg-white rounded-lg w-[90%] border-t-[6px] border-black shadow-md" >
@@ -89,35 +132,26 @@ export default function FunnelBuilder() {
 
         {/* Actual Steps here */}
         <div className=" h-screen overflow-scroll flex flex-col gap-5 scrollbar-none pb-4"  >
+          <DndContext collisionDetection={closestCorners} sensors={sensors} onDragEnd={handleDragEnd} >
 
-          {steps?.map(({ name, status }, index) => (
-            <div key={index} className="w-full flex items-center justify-between">
-              <div onClick={() => handleClick(index)} className={` ${selected === index ? 'bg-[#E6E6ED] border-l-[6px] border-[#F58529]' : 'bg-white'} cursor-pointer relative rounded-lg w-[90%] transition-all duration-400  shadow-md flex items-center pl-3 py-[2.6px]`} >
-                {status === "empty" ? (
-                  <img src={empytIcon} alt="empty icon" className="h-5 w-5 my-4" />
-                ) : (
-                  <img src={DoneIcon} alt="done icon" className="h-4 w-4 my-4" />
-                )}
-                <p className="text-[#0C0C27] text-2xl font-semibold py-6 pl-4 ">{name}</p>
-                <img src={DragIcon} alt="done icon" className={`h-6 w-6  absolute top-0 left-1/2 ${selected === index ? '' : 'hidden'}`} />
-                <DeleteStep selected={selected} index={index} steps={steps} id={index + 1} setSteps={setSteps} />
-              </div>
-              {status === "empty" ? (
-                <div className={`font-semibold text-2xl text-[#B1B5BE] border-[#B1B5BE] border-2 h-12 w-12 mr-2 flex justify-center items-center rounded-full  relative`}>
-                  {index + 1}
-                  {index + 1 === steps.length ? "" : <div className="absolute bg-[#B1B5BE] h-12 w-[2.48px] rounded-md bottom-[-53px]"></div>}
-                </div>
-              ) : (
-                <div className={`font-semibold text-2xl text-[#FCFCFC] h-12 w-12 mr-2 flex justify-center items-center rounded-full bg-[#F58529] relative`}>
-                  {index + 1}
-                  {index + 1 === steps.length ? "" : <div className="absolute bg-[#F58529] h-12  w-[2.48px] rounded-md bottom-[-52px]"></div>}
-                </div>
-              )}
-
-            </div>
-          ))}
+            <SortableContext items={steps} strategy={verticalListSortingStrategy} >
+              {steps?.map(({ name, status, id }, index) => (
+                <SortableItem
+                  key={index}
+                  handleClick={handleClick}
+                  index={index}
+                  status={status}
+                  name={name}
+                  selected={selected}
+                  setSteps={setSteps}
+                  stepslist={steps}
+                  id={id}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
         </div>
-
+        
       </div>
     </div>
   )
