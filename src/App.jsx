@@ -4,6 +4,7 @@ import Gallery from "./pages/Gallery"
 import QuestionsForm from "./pages/QuestionsForm"
 import Funnels from "./pages/Funnels"
 import Layout from "./components/Layout"
+import NotFound from "./pages/NotFound"
 
 
 let routers = createBrowserRouter([
@@ -14,12 +15,14 @@ let routers = createBrowserRouter([
       { path: "Gallery", element: <Gallery /> },
       { path: "QuestionsForm", element: <QuestionsForm /> }
     ]
+  }, {
+    path: "*", element: <NotFound />
   }
 ]);
 
 function App() {
   return (
-      <RouterProvider router={routers} />
+    <RouterProvider router={routers} />
   )
 }
 

@@ -40,7 +40,7 @@ const templates = [
 ];
 
 export default function Gallery() {
-  const [role,] = useState("user")
+  const [role,] = useState("admin")
 
   const [selected, setSelected] = useState(0);
   const handleClick = (elementNumber) => {
@@ -64,6 +64,8 @@ export default function Gallery() {
           <Link to={"/QuestionsForm"} >
             <img className="w-16 cursor-pointer" src={AiButton} alt="Generate with Ai" />
           </Link>
+          <p className="text-[#0C0C27] text-xl font-medium">OR <span className="underline cursor-pointer">Create from Scratch </span> </p>
+          
         </div>
         {templates.map(({ templateName, image }, index) => (
           <FunnelCard role={role} key={index} templateName={templateName} image={image} />
