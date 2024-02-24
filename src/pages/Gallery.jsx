@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
-import SearchBar from "../components/SearchBar";
-import TabC from "../components/tab";
-import { FunnelCard } from "../components/Card";
+import SearchBar from "../components/Gallery/SearchBar";
+import TabC from "../components/Gallery/tab";
+import { FunnelCard } from "../components/Gallery/Card";
 import AiButton from "../assets/Images/AI.svg"
 import funnelImage from "../assets/templates/corporate-style.png"
 import funnelImage2 from "../assets/templates/background-focus-squeeze.png"

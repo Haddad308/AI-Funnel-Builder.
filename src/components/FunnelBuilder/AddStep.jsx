@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import React, { useState } from "react";
-import addButton from "../assets/Images/addButton.svg"
+import addButton from "../../assets/Images/addButton.svg"
 
 import {
     Button,
@@ -10,7 +10,7 @@ import {
     DialogBody,
     DialogFooter,
 } from "@material-tailwind/react";
-import hr from "../assets/Images/Vector 6.svg"
+import hr from "../../assets/Images/Vector 6.svg"
 
 export function AddStep({ steps, setSteps }) {
 

@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
-import DoneIcon from "../assets/Images/Success.svg"
-import empytIcon from "../assets/Images/Not.svg"
-import DragIcon from "../assets/Images/8872333_more_horizontal_icon 1.svg"
-import { DeleteStep } from "../components/DeleteStep";
+import DoneIcon from "../../assets/Images/Success.svg"
+import empytIcon from "../../assets/Images/Not.svg"
+import DragIcon from "../../assets/Images/8872333_more_horizontal_icon 1.svg"
+import { DeleteStep } from "./DeleteStep";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
@@ -26,7 +26,7 @@ export default function SortableItem({ handleClick, index, status, name, selecte
                 style={style}
                 {...attributes}
                 {...listeners}
-                onClick={() => { console.log("test"); handleClick(index);  }}
+                onClick={() => { console.log("test"); handleClick(index); }}
                 className={` ${selected === index ? 'bg-[#E6E6ED] border-l-[6px] border-[#F58529]' : 'bg-white'} hover:bg-[#E6E6ED] cursor-pointer relative rounded-lg w-[90%] transition-all duration-400  shadow-md flex items-center pl-3 py-[2.6px]`} >
                 {status === "empty" ? (
                     <img src={empytIcon} alt="empty icon" className="h-5 w-5 my-4" />

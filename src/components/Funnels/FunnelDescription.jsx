@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
-
 import React from "react";
-import InfoIcon from "../assets/Images/info.svg"
+import InfoIcon from "../../assets/Images/info.svg"
 import {
     Button,
     Dialog,
@@ -11,7 +10,8 @@ import {
 } from "@material-tailwind/react";
 import DescriptionItem from "./DescriptionItem";
 import { Link } from "react-router-dom";
-import hr from "../assets/Images/Vector 6.svg"
+import hr from "../../assets/Images/Vector 6.svg"
+
 export function FunnelDescription({ to }) {
     const [open, setOpen] = React.useState(false);
 

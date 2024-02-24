@@ -1,9 +1,9 @@
-import {  RouterProvider, createBrowserRouter, createHashRouter } from "react-router-dom"
+import { RouterProvider, createHashRouter } from "react-router-dom"
 import FunnelBuilder from "./pages/FunnelBuilder"
 import Gallery from "./pages/Gallery"
 import QuestionsForm from "./pages/QuestionsForm"
 import Funnels from "./pages/Funnels"
-import Layout from "./components/Layout"
+import Layout from "./components/Layout/Layout"
 import NotFound from "./pages/NotFound"
 
 

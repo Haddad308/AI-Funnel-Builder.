@@ -1,5 +1,5 @@
 import { Button, DialogFooter } from "@material-tailwind/react";
-import Question from "../components/Question";
+import Question from "../components/AIGeneration/Question";
 import { Link } from "react-router-dom";
 
 

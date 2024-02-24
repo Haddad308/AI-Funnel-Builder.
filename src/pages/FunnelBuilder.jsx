@@ -1,13 +1,13 @@
 import { Button } from "@material-tailwind/react";
-import { useEffect, useState } from "react";
-import { AddStep } from "../components/AddStep";
-import StatusButton from "../components/StatusButton"
-import SortableItem from "../components/SortableItem";
+import { useState } from "react";
+import { AddStep } from "../components/FunnelBuilder/AddStep";
+import StatusButton from "../components/FunnelBuilder/StatusButton"
+import SortableItem from "../components/FunnelBuilder/SortableItem";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { DndContext, closestCorners } from "@dnd-kit/core";
 import { PointerSensor, useSensor, useSensors } from "@dnd-kit/core"
 import { Link } from "react-router-dom";
-// import axios from "axios";
+import { changeIndex } from "../middlewares/changeIndex";
 
 export default function FunnelBuilder() {
 
@@ -51,51 +51,6 @@ export default function FunnelBuilder() {
   ]);
 
 
-  async function getSteps() {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Cookie", "Cookie_1=value; session_id=d5201e1d49d70a2596e142a78100d6b3ffa3f181");
-
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow"
-    };
-
-    try {
-      const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/steps", requestOptions);
-      // const result = await respons;
-      // console.log("");
-      console.log(response)
-    } catch (error) {
-      console.log("Da");
-      console.error(error);
-    }
-  }
-
-  function changeIndex(items, activeID, overID) {
-    // Find the indexes of the items with the provided IDs
-    const activeIndex = items.findIndex(item => item.id === activeID);
-    const overIndex = items.findIndex(item => item.id === overID);
-
-    // Check if both IDs are found
-    if (activeIndex === -1 || overIndex === -1) {
-      console.error("One or both of the provided IDs are not found in the list.");
-      return items; // Return the original list if any ID is not found
-    }
-
-    // Create a new array to avoid mutating the original
-    const newItems = [...items];
-
-    // Swap the items in the new array
-    const temp = newItems[activeIndex];
-    newItems[activeIndex] = newItems[overIndex];
-    newItems[overIndex] = temp;
-
-    console.log("Test function", newItems);
-    return newItems;
-  }
-
   function handleDragEnd(event) {
     const { active, over } = event;
 
@@ -125,9 +80,9 @@ export default function FunnelBuilder() {
     })
   )
 
-  useEffect(() => {
-    getSteps();
-  }, [])
+  // useEffect(() => {
+  //   getSteps();
+  // }, [])
 
   return (
     <div className="flex  h-full py-10 gap-5  " >
@@ -156,7 +111,6 @@ export default function FunnelBuilder() {
           </div>
           <AddStep steps={steps} setSteps={setSteps} />
         </div>
-
         {/* Actual Steps here */}
         <div className=" h-screen overflow-scroll flex flex-col gap-5 scrollbar-none pb-4"  >
           <DndContext collisionDetection={closestCorners} sensors={sensors} onDragEnd={handleDragEnd} >

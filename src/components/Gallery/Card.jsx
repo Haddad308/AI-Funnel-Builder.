@@ -7,7 +7,7 @@ import {
     Typography,
     Button,
 } from "@material-tailwind/react";
-import editIcon from "../assets/Images/edit.svg";
+import editIcon from "../../assets/Images/edit.svg";
 import { TemplateViewer } from "./TemplateViewer";
 
 

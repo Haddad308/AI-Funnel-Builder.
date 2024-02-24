@@ -1,5 +1,6 @@
-import FunnelCard from "../components/FunnelCard";
+import FunnelCard from "../components/Funnels/FunnelCard";
 import SalesFunnelIcon from "../assets/Images/arrow.svg"
+
 import LeadGenerationIcon from "../assets/Images/clock.svg"
 import HomeIcon from "../assets/Images/cup.svg"
 import OptInlIcon from "../assets/Images/funnel.svg"

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import trash from "../assets/Images/Icon.svg"
+import trash from "../../assets/Images/Icon.svg"
 
 import {
     Button,
@@ -9,7 +9,7 @@ import {
     DialogBody,
     DialogFooter,
 } from "@material-tailwind/react";
-import hr from "../assets/Images/Vector 6.svg"
+import hr from "../../assets/Images/Vector 6.svg"
 
 export function DeleteStep({ selected, index, setSteps }) {
     const [open, setOpen] = React.useState(false);
