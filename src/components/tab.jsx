@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
 
-export default function TabC({ text, index, selected, handleClick }) {
+export default function TabC({ text, index, selected, handleClick, filterCategories }) {
   return (
     <div
       onClick={() => {
         console.log("is");
         handleClick(index);
+        filterCategories(text)
       }}
       className={`${selected === index
         ? 'bg-[#F58529]'

@@ -58,18 +58,16 @@ export function AddStep({ steps, setSteps }) {
             "description": "This a description 5"
         }
     ])
-    
+
     const handleClick = (elementNumber) => {
         setSelected(elementNumber);
     };
-
 
     const handleOpen = () => setOpen(!open);
     const handleButtonClick = (event) => {
         handleOpen();
         event.preventDefault(); // Prevents the default behavior
     };
-
 
     return (
         <div>
@@ -82,15 +80,12 @@ export function AddStep({ steps, setSteps }) {
             <Dialog open={open} size={"md"} handler={handleButtonClick} className="flex flex-col justify-center items-center bg-[#FBFBFE]">
                 <DialogHeader className="text-[#0C0C27] text-3xl font-semibold  self-start " >Add New Step</DialogHeader>
                 <img src={hr} alt="" />
-
                 <DialogBody className="grid gap-5  w-full " >
                     {mainSteps.map(({ name }, index) => (
-                        <div key={index} className={`p-5 cursor-pointer rounded-md shadow-md w-full ${selected === index ? "bg-[#E6E6ED]" : "bg-white"} `} onClick={() => handleClick(index)}>
+                        <div key={index} className={`p-5 cursor-pointer rounded-md shadow-md w-full hover:bg-[#E6E6ED] transition-all duration-300 ${selected === index ? "bg-[#E6E6ED]" : "bg-white"} `} onClick={() => handleClick(index)}>
                             <h3 className={`text-2xl text-[#0C0C27] ${selected === index ? "font-semibold" : "font-medium"}`}>{name}</h3>
-
                         </div>
                     ))}
-
                 </DialogBody>
                 <DialogFooter>
                     <Button

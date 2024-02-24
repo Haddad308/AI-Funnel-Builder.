@@ -26,7 +26,7 @@ export function FunnelDescription({ to }) {
         <div onClick={(e) => {
             e.stopPropagation()
         }} >
-            <div id="icon" onClick={handleButtonClick} className="bg-white w-10 h-10 shadow-md transition duration-300 justify-center items-center rounded-xl absolute top-3 right-3 opacity-0 flex  group-hover:opacity-100 ">
+            <div id="icon" onClick={handleButtonClick} className="bg-white w-8 h-8   shadow-md transition-all duration-200 hover:w-10 hover:h-10 justify-center items-center rounded-xl absolute top-3 right-3 opacity-0 flex  group-hover:opacity-100 ">
                 <img className="w-9/12" src={InfoIcon} alt="" />
             </div>
             <Dialog open={open} size={"lg"} handler={handleButtonClick} className="flex flex-col justify-center items-center bg-[#FBFBFE]">

@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom"
+import {  RouterProvider, createBrowserRouter, createHashRouter } from "react-router-dom"
 import FunnelBuilder from "./pages/FunnelBuilder"
 import Gallery from "./pages/Gallery"
 import QuestionsForm from "./pages/QuestionsForm"
@@ -7,7 +7,7 @@ import Layout from "./components/Layout"
 import NotFound from "./pages/NotFound"
 
 
-let routers = createBrowserRouter([
+let routers = createHashRouter([
   {
     path: "", element: <Layout />, children: [
       { index: true, element: <Funnels /> },
@@ -19,6 +19,8 @@ let routers = createBrowserRouter([
     path: "*", element: <NotFound />
   }
 ]);
+
+
 
 function App() {
   return (

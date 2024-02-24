@@ -1,5 +1,5 @@
 import { Button } from "@material-tailwind/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AddStep } from "../components/AddStep";
 import StatusButton from "../components/StatusButton"
 import SortableItem from "../components/SortableItem";
@@ -7,6 +7,7 @@ import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
 import { DndContext, closestCorners } from "@dnd-kit/core";
 import { PointerSensor, useSensor, useSensors } from "@dnd-kit/core"
 import { Link } from "react-router-dom";
+// import axios from "axios";
 
 export default function FunnelBuilder() {
 
@@ -49,6 +50,28 @@ export default function FunnelBuilder() {
     }
   ]);
 
+
+  async function getSteps() {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Cookie", "Cookie_1=value; session_id=d5201e1d49d70a2596e142a78100d6b3ffa3f181");
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow"
+    };
+
+    try {
+      const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/steps", requestOptions);
+      // const result = await respons;
+      // console.log("");
+      console.log(response)
+    } catch (error) {
+      console.log("Da");
+      console.error(error);
+    }
+  }
 
   function changeIndex(items, activeID, overID) {
     // Find the indexes of the items with the provided IDs
@@ -102,6 +125,10 @@ export default function FunnelBuilder() {
     })
   )
 
+  useEffect(() => {
+    getSteps();
+  }, [])
+
   return (
     <div className="flex  h-full py-10 gap-5  " >
       {/* left Section */}
@@ -113,7 +140,7 @@ export default function FunnelBuilder() {
           <div>
             <h2 className="text-[#0C0C27] text-2xl font-semibold mb-5" >Template Name</h2>
             <Link to={"/gallery"} >
-            <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl"  >Add Template </Button>
+              <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl"  >Add Template </Button>
             </Link>
           </div>
         </>
@@ -151,7 +178,7 @@ export default function FunnelBuilder() {
             </SortableContext>
           </DndContext>
         </div>
-        
+
       </div>
     </div>
   )
