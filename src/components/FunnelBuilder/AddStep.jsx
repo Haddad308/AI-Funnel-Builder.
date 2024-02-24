@@ -12,50 +12,62 @@ import {
 } from "@material-tailwind/react";
 import hr from "../../assets/Images/Vector 6.svg"
 
-export function AddStep({ steps, setSteps }) {
+export function AddStep({ getSteps }) {
 
-    const addStep = (step) => {
-        setSteps(() => [...steps, step]);
+
+    async function addStep(values) {
+        console.log("hello from add a step.");
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Cookie", "Cookie_1=value; session_id=d5201e1d49d70a2596e142a78100d6b3ffa3f181");
+
+        const raw = JSON.stringify(values)
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        try {
+            const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/steps/create", requestOptions);
+            const result = await response.json();
+            console.log(result);
+        } catch (error) {
+            console.error(error);
+        }
+
         handleOpen();
+        getSteps()
     }
 
     const [open, setOpen] = React.useState(false);
     const [selected, setSelected] = useState(0);
     const [mainSteps,] = useState([
         {
-            "id": 1,
             "name": "Create a Sign up Page",
-            "status": "empty",
-            "reference": null,
-            "description": "This a description 1"
+            "description": "This a description 1",
+            "type": "page"
         },
         {
-            "id": 2,
             "name": "Create an order form",
-            "status": "empty",
-            "reference": null,
-            "description": "This a description 2"
+            "description": "This a description 2",
+            "type": "page"
         },
         {
-            "id": 3,
             "name": "Create an Email",
-            "status": "empty",
-            "reference": null,
-            "description": "This a description 3"
+            "description": "This a description 3",
+            "type": "email"
         },
         {
-            "id": 4,
             "name": "Create an Event",
-            "status": "empty",
-            "reference": null,
-            "description": "This a description 4"
+            "description": "This a description 4",
+            "type": "event"
         },
         {
-            "id": 5,
             "name": "Create a Thank you Page",
-            "status": "empty",
-            "reference": null,
-            "description": "This a description 5"
+            "description": "This a description 5",
+            "type": "page"
         }
     ])
 

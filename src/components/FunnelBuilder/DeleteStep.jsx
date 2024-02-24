@@ -11,21 +11,38 @@ import {
 } from "@material-tailwind/react";
 import hr from "../../assets/Images/Vector 6.svg"
 
-export function DeleteStep({ selected, index, setSteps }) {
+export function DeleteStep({ selected, id, index, getSteps }) {
     const [open, setOpen] = React.useState(false);
 
     const handleOpen = () => setOpen(!open);
 
+    async function deleteStep(id) {
+        console.log("hello from delete a step.");
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Cookie", "Cookie_1=value; session_id=d5201e1d49d70a2596e142a78100d6b3ffa3f181");
 
-    const deleteStep = (index) => {
-        setSteps(prevSteps => {
-            const updatedSteps = [...prevSteps];
-            updatedSteps.splice(index, 1);
-            return updatedSteps;
+        const raw = JSON.stringify({
+            "step_id": id
         });
-        handleOpen()
-    };
+        const requestOptions = {
+            method: "DELETE",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
 
+        try {
+            const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/steps/delete", requestOptions);
+            const result = await response.text();
+            console.log(result)
+        } catch (error) {
+            console.error(error);
+        }
+
+        handleOpen();
+        getSteps();
+    }
 
 
     return (
@@ -49,7 +66,7 @@ export function DeleteStep({ selected, index, setSteps }) {
                         <span>Cancel</span>
                     </Button>
                     <Button variant="gradient" color="red" onClick={ ()=>{
-                        deleteStep(index)
+                        deleteStep(id)
                     }  }>
                         <span>Yes</span>
                     </Button>

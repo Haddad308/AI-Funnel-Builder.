@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import SearchBar from "../components/Gallery/SearchBar";
 import TabC from "../components/Gallery/tab";
@@ -15,7 +14,9 @@ import { Link } from "react-router-dom";
 
 export default function Gallery() {
   const tabs = ["All", "Sales", "Lead", "Opt-In", "Lead Generation", "Home", "Appointment", "Webinar", "Coupon"]
-  const [templates, SetTemplates] = useState([
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const [templates,] = useState([
     {
       "templateName": "Pop blue",
       "image": funnelImage,
@@ -45,11 +46,8 @@ export default function Gallery() {
       "templateName": "Modern black",
       "image": funnelImage6,
       "category": "Coupon"
-    }
-  ])
+    }])
   const [filtered, setFiltered] = useState(templates);
-  const [searchQuery, setSearchQuery] = useState('');
-
 
   function filterCategories(categoryName) {
     if (categoryName === "All") {
@@ -80,7 +78,6 @@ export default function Gallery() {
     setSelected(elementNumber);
   };
 
-
   return (
     <div className="flex flex-col justify-center items-center p-10 gap-7 ">
       <h1 className="font-semibold text-3xl text-[#0C0C27]" >Check out our newest themes and templates</h1>
@@ -98,7 +95,6 @@ export default function Gallery() {
             <img className="w-16 cursor-pointer border-2 border-white hover:border-[#8D93A1] duration-300 transition-all  rounded-full " src={AiButton} alt="Generate with Ai" />
           </Link>
           <p className="text-[#0C0C27] text-xl font-medium ">OR <span className="underline cursor-pointer hover:text-blue-600 duration-300 transition-all">Create from Scratch </span> </p>
-
         </div>
         {filtered.map(({ templateName, image }, index) => (
           <FunnelCard role={role} key={index} templateName={templateName} image={image} index={index} />
