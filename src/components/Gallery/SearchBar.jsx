@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Button } from "@material-tailwind/react";
+import { CreateTemplate } from "./CreateTemplate";
 // import { useState } from "react";
 
 const SearchBar = ({ role, handleSearch, searchQuery, setSearchQuery }) => {
@@ -41,7 +41,7 @@ const SearchBar = ({ role, handleSearch, searchQuery, setSearchQuery }) => {
                             required
                         />
                         {role === "admin" ? (
-                            <Button className="w-1/3 h-[40px]">Add New</Button>
+                            <CreateTemplate/>
                         ) : (
                             ""
                         )}

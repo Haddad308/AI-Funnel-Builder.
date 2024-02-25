@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
-
 import React, { useState } from "react";
 import addButton from "../../assets/Images/addButton.svg"
-
 import {
     Button,
     Dialog,
@@ -11,9 +9,11 @@ import {
     DialogFooter,
 } from "@material-tailwind/react";
 import hr from "../../assets/Images/Vector 6.svg"
+import ButtonLoader from "../General/ButtonLoader";
 
 export function AddStep({ getSteps }) {
 
+    const [isLoading, setIsLoading] = useState(false)
 
     async function addStep(values) {
         console.log("hello from add a step.");
@@ -30,11 +30,14 @@ export function AddStep({ getSteps }) {
         };
 
         try {
+            setIsLoading(true)
             const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/steps/create", requestOptions);
             const result = await response.json();
             console.log(result);
+            setIsLoading(false)
         } catch (error) {
             console.error(error);
+            setIsLoading(false)
         }
 
         handleOpen();
@@ -111,7 +114,10 @@ export function AddStep({ getSteps }) {
                         addStep(mainSteps[selected])
                     }
                     }>
-                        <span>Create</span>
+                        {isLoading ?
+                            <ButtonLoader /> :
+                            <span>Create</span>
+                        }
                     </Button>
                 </DialogFooter>
             </Dialog>

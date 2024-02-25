@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
-
+import { useContext, useState } from "react";
 import {
     Button,
     Dialog,
@@ -14,18 +13,20 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { useNavigate } from "react-router-dom";
 import ButtonLoader from "../General/ButtonLoader";
+import { SelectedStepContext } from "../../Context/SelectedStepID";
 
 
-export function CreateEmail({ id }) {
+export function CreateScratch() {
+
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
+    const [selectedStep,] = useContext(SelectedStepContext);
 
 
     const handleOpen = () => setOpen(!open);
 
-    async function addEmail(values) {
-        console.log("hello from add an email.");
+    async function createScratch(values) {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Cookie", "Cookie_1=value; session_id=d5201e1d49d70a2596e142a78100d6b3ffa3f181");
@@ -40,10 +41,11 @@ export function CreateEmail({ id }) {
 
         try {
             setIsLoading(true)
-            const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/email/create", requestOptions);
+            const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/templates/create/user", requestOptions);
             const result = await response.json();
             setIsLoading(false)
-            navigate(JSON.parse(result.result).email_url);
+            console.log(JSON.parse(result.result).page_url);
+            navigate(JSON.parse(result.result).page_url);
         } catch (error) {
             console.error(error);
             setIsLoading(false)
@@ -55,43 +57,46 @@ export function CreateEmail({ id }) {
 
     const formHandler = useFormik({
         initialValues: {
-            subject: '',
+            page_name: '',
         },
         validationSchema: Yup.object({
-            subject: Yup.string().required('Required'),
+            page_name: Yup.string().required('Required'),
         }),
         onSubmit: (values) => {
-            values['id'] = id
-            addEmail(values)
+            values["step_id"] = selectedStep
+            console.log(values);
+            createScratch(values)
         },
     });
 
 
     return (
         <>
-            <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl" onClick={handleOpen} >Add Email </Button>
+            <span onClick={handleOpen} className="underline cursor-pointer hover:text-blue-600 duration-300 transition-all">Create from Scratch </span> 
             <Dialog open={open} handler={handleOpen}>
-                <DialogHeader>Create an Email</DialogHeader>
+                <DialogHeader>Create a page from scratch</DialogHeader>
                 <img src={hr} alt="" />
                 <form onSubmit={formHandler.handleSubmit}>
-                    <DialogBody>
-                        <p className="mb-3" >
+                    <DialogBody className="">
+                        <div className="mb-3">
+                            <p className="mb-1  " >
+                                Enter page name:
+                            </p>
+                            <Input
+                                id="page_name"
+                                name="page_name"
+                                size="large"
+                                placeholder=""
+                                type="page_name"
+                                onChange={formHandler.handleChange}
+                                onBlur={formHandler.handleBlur}
+                                label="name"
+                                value={formHandler.values.page_name}
+                            />
+                            {formHandler.touched.page_name && formHandler.errors.page_name ? <div className="mb-2 text-red-600">{formHandler.errors.page_name}</div> : null}
+                        </div>
 
-                            Please enter the email name:
-                        </p>
-
-                        <Input
-                            id="subject"
-                            name="subject"
-                            size="large"
-                            placeholder=""
-                            type="subject"
-                            onChange={formHandler.handleChange}
-                            onBlur={formHandler.handleBlur}
-                            label="name"
-                            value={formHandler.values.subject}
-                        />
-                        {formHandler.touched.subject && formHandler.errors.subject ? <div className="mb-2 text-red-600">{formHandler.errors.subject}</div> : null}
+                        
                     </DialogBody>
                     <DialogFooter>
                         <Button
@@ -102,10 +107,10 @@ export function CreateEmail({ id }) {
                         >
                             <span>Cancel</span>
                         </Button>
-                        <Button variant="gradient" color="green" type="submit">
+                        <Button variant="gradient" color="orange" type="submit">
                             {isLoading ?
                                 <ButtonLoader /> :
-                                <span>Yes</span>
+                                <span>Create</span>
                             }
                         </Button>
                     </DialogFooter>

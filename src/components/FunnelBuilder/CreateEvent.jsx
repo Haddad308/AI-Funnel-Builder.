@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import { useState } from "react";
 import {
     Button,
     Dialog,
@@ -12,11 +12,14 @@ import hr from "../../assets/Images/Vector 6.svg"
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { useNavigate } from "react-router-dom";
+import ButtonLoader from "../General/ButtonLoader";
 
 
 export function CreateEvent({ id }) {
     const navigate = useNavigate();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
+
 
     const handleOpen = () => setOpen(!open);
 
@@ -35,11 +38,14 @@ export function CreateEvent({ id }) {
         };
 
         try {
+            setIsLoading(true)
             const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/event/create", requestOptions);
             const result = await response.json();
             navigate(JSON.parse(result.result).event_url);
+            setIsLoading(false)
         } catch (error) {
             console.error(error);
+            setIsLoading(false)
         }
 
         handleOpen();
@@ -96,7 +102,10 @@ export function CreateEvent({ id }) {
                             <span>Cancel</span>
                         </Button>
                         <Button variant="gradient" color="green" type="submit">
-                            <span>Yes</span>
+                            {isLoading ?
+                                <ButtonLoader /> :
+                                <span>Yes</span>
+                            }
                         </Button>
                     </DialogFooter>
                 </form>

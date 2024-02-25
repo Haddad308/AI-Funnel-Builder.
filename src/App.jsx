@@ -5,6 +5,7 @@ import QuestionsForm from "./pages/QuestionsForm"
 import Funnels from "./pages/Funnels"
 import Layout from "./components/Layout/Layout"
 import NotFound from "./pages/NotFound"
+import SelectedStepContextProvider from "./Context/SelectedStepID"
 
 
 let routers = createHashRouter([
@@ -21,10 +22,14 @@ let routers = createHashRouter([
 ]);
 
 
+// TODO: 1- Add roles. 
+// TODO: 2- fix drag and drop. 
 
 function App() {
   return (
-    <RouterProvider router={routers} />
+    <SelectedStepContextProvider>
+      <RouterProvider router={routers} />
+    </SelectedStepContextProvider>
   )
 }
 

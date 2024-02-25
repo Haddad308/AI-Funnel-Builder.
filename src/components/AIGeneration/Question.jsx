@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useRef, useEffect } from 'react';
 
-function Question({ isFocusedprop, questionBody, example }) {
+function Question({ isFocusedprop, questionBody, example, name, change, value, error, touched }) {
     const [isFocused, setIsFocused] = useState(false);
     const inputRef = useRef(null);
 
@@ -29,14 +29,18 @@ function Question({ isFocusedprop, questionBody, example }) {
             <h2 className="text-[22px] font-semibold">{questionBody}</h2>
             <p className="text-[16px] font-medium">{example}</p>
             <input
+                id={name}
+                name={name}
                 ref={inputRef}
                 type="text"
                 placeholder="Write your Answer here."
                 className="rounded-xl focus:border-[#F58529] focus:ring-[#F58529] group"
                 onFocus={handleFocus}
                 onBlur={handleBlur}
+                onChange={change}
+                value={value}
             />
-            
+            {touched && error ? <div className="mb-2 text-red-600">{error}</div> : null}
         </div>
     );
 }

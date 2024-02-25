@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
     Button,
@@ -16,16 +17,28 @@ import { useNavigate } from "react-router-dom";
 import ButtonLoader from "../General/ButtonLoader";
 
 
-export function CreateEmail({ id }) {
+export function Generate({ isload, success, setSuccess }) {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
+    // const [selectedStep,] = useContext(SelectedStepContext);
 
+
+    useEffect(() => {
+
+        if (success) {
+            setTimeout(() => {
+                handleOpen();
+            }, 1000);
+        }
+        setSuccess(false)
+
+    }, [success])
 
     const handleOpen = () => setOpen(!open);
 
-    async function addEmail(values) {
-        console.log("hello from add an email.");
+    async function generate(values) {
+        console.log("hello from add an generate.");
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Cookie", "Cookie_1=value; session_id=d5201e1d49d70a2596e142a78100d6b3ffa3f181");
@@ -40,10 +53,11 @@ export function CreateEmail({ id }) {
 
         try {
             setIsLoading(true)
-            const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/email/create", requestOptions);
+            const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/templates/create/ai", requestOptions);
             const result = await response.json();
             setIsLoading(false)
-            navigate(JSON.parse(result.result).email_url);
+            console.log(JSON.parse(result.result).page_url);
+            navigate(JSON.parse(result.result).page_url);
         } catch (error) {
             console.error(error);
             setIsLoading(false)
@@ -55,43 +69,48 @@ export function CreateEmail({ id }) {
 
     const formHandler = useFormik({
         initialValues: {
-            subject: '',
+            page_name: '',
         },
         validationSchema: Yup.object({
-            subject: Yup.string().required('Required'),
+            page_name: Yup.string().required('Required'),
         }),
         onSubmit: (values) => {
-            values['id'] = id
-            addEmail(values)
+            // values["step_id"] = selectedStep
+            generate(values)
         },
     });
 
 
     return (
         <>
-            <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl" onClick={handleOpen} >Add Email </Button>
+            <Button variant="gradient" color="black" type="submit"  >
+                {isload ?
+                    <ButtonLoader /> :
+                    <span>Submit</span>
+                }
+            </Button>
             <Dialog open={open} handler={handleOpen}>
-                <DialogHeader>Create an Email</DialogHeader>
+                <DialogHeader>Create a page with AI</DialogHeader>
                 <img src={hr} alt="" />
                 <form onSubmit={formHandler.handleSubmit}>
                     <DialogBody>
                         <p className="mb-3" >
 
-                            Please enter the email name:
+                            Please enter page name:
                         </p>
 
                         <Input
-                            id="subject"
-                            name="subject"
+                            id="page_name"
+                            name="page_name"
                             size="large"
                             placeholder=""
-                            type="subject"
+                            type="page_name"
                             onChange={formHandler.handleChange}
                             onBlur={formHandler.handleBlur}
                             label="name"
-                            value={formHandler.values.subject}
+                            value={formHandler.values.page_name}
                         />
-                        {formHandler.touched.subject && formHandler.errors.subject ? <div className="mb-2 text-red-600">{formHandler.errors.subject}</div> : null}
+                        {formHandler.touched.page_name && formHandler.errors.page_name ? <div className="mb-2 text-red-600">{formHandler.errors.page_name}</div> : null}
                     </DialogBody>
                     <DialogFooter>
                         <Button

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import { useState } from "react";
 import trash from "../../assets/Images/Icon.svg"
 
 import {
@@ -10,9 +10,11 @@ import {
     DialogFooter,
 } from "@material-tailwind/react";
 import hr from "../../assets/Images/Vector 6.svg"
+import ButtonLoader from "../General/ButtonLoader";
 
 export function DeleteStep({ selected, id, index, getSteps }) {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] =useState(false);
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleOpen = () => setOpen(!open);
 
@@ -33,11 +35,14 @@ export function DeleteStep({ selected, id, index, getSteps }) {
         };
 
         try {
+            setIsLoading(true)
             const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/steps/delete", requestOptions);
             const result = await response.text();
             console.log(result)
+            setIsLoading(false)
         } catch (error) {
             console.error(error);
+            setIsLoading(false)
         }
 
         handleOpen();
@@ -68,7 +73,10 @@ export function DeleteStep({ selected, id, index, getSteps }) {
                     <Button variant="gradient" color="red" onClick={ ()=>{
                         deleteStep(id)
                     }  }>
-                        <span>Yes</span>
+                        {isLoading ?
+                            <ButtonLoader /> :
+                            <span>Yes</span>
+                        }
                     </Button>
                 </DialogFooter>
             </Dialog>

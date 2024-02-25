@@ -7,8 +7,9 @@ import {
     DialogBody,
     Typography,
 } from "@material-tailwind/react";
+import { CopyTemplate } from "./CreateCopy";
 
-export function TemplateViewer({ Name, image }) {
+export function TemplateViewer({ Name, image, template_id }) {
     const [open, setOpen] = React.useState(false);
 
     const handleOpen = () => setOpen((cur) => !cur);
@@ -30,17 +31,23 @@ export function TemplateViewer({ Name, image }) {
                             className="mr-1 text-[#8D93A1]"
                         >
                             <span>Close</span>
-                        </Button>                        <Button color="gray" size="sm">
-                            Copy
                         </Button>
+                        <CopyTemplate template_id={template_id} />
                     </div>
                 </DialogHeader>
-                <DialogBody className="border-2 border-black m-2 p-0 rounded-xl overflow-hidden" >
-                    <img
-                        alt="nature"
-                        className="h-full w-full rounded-lg  object-fill"
-                        src={image}
-                    />
+                <DialogBody className="border-2 border-black m-2 p-0 rounded-xl overflow-hidden flex justify-center" >
+                    {image ?
+
+                        <img
+                            alt="nature"
+                            className="h-full w-full rounded-lg  object-fill"
+                            src={"https://primedenteg-stage-11526440.dev.odoo.com/" + image}
+                        /> :
+                        <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
+                            className="w-[270px] border-b-2  "
+                            alt="ui/ux review check" />
+                    }
                 </DialogBody>
             </Dialog>
         </>

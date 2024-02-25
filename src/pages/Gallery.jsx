@@ -1,53 +1,22 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SearchBar from "../components/Gallery/SearchBar";
 import TabC from "../components/Gallery/tab";
 import { FunnelCard } from "../components/Gallery/Card";
 import AiButton from "../assets/Images/AI.svg"
-import funnelImage from "../assets/templates/corporate-style.png"
-import funnelImage2 from "../assets/templates/background-focus-squeeze.png"
-import funnelImage3 from "../assets/templates/chiropractor-squeeze.png"
-import funnelImage4 from "../assets/templates/entire-page-squeeze.png"
-import funnelImage5 from "../assets/templates/dark-yellow-webinar.png"
-import funnelImage6 from "../assets/templates/entire-page-squeeze.png"
 import { Link } from "react-router-dom";
-
+import { Oval } from "react-loader-spinner";
+import { SelectedStepContext } from "../Context/SelectedStepID";
+import { CreateScratch } from "../components/Gallery/CreateFromScratch";
+// import images from '../assets/templates/adventure_pop_squeeze.png'; 
 
 export default function Gallery() {
   const tabs = ["All", "Sales", "Lead", "Opt-In", "Lead Generation", "Home", "Appointment", "Webinar", "Coupon"]
   const [searchQuery, setSearchQuery] = useState('');
-
-  const [templates,] = useState([
-    {
-      "templateName": "Pop blue",
-      "image": funnelImage,
-      "category": "Sales"
-    },
-    {
-      "templateName": "Elegant gold",
-      "image": funnelImage2,
-      "category": "Lead"
-    },
-    {
-      "templateName": "Minimalist black",
-      "image": funnelImage3,
-      "category": "Home"
-    },
-    {
-      "templateName": "Retro red",
-      "image": funnelImage4,
-      "category": "Appointment"
-    },
-    {
-      "templateName": "Modern white",
-      "image": funnelImage5,
-      "category": "Webinar"
-    },
-    {
-      "templateName": "Modern black",
-      "image": funnelImage6,
-      "category": "Coupon"
-    }])
-  const [filtered, setFiltered] = useState(templates);
+  const [isLoading, setIsLoading] = useState(false);
+  const [templates, setTemplates] = useState([])
+  const [filtered, setFiltered] = useState([]);
+  const [selectedStep,] = useContext(SelectedStepContext);
+  console.log("Show me the stepID", selectedStep);
 
   function filterCategories(categoryName) {
     if (categoryName === "All") {
@@ -57,7 +26,7 @@ export default function Gallery() {
 
     const arr = [];
     for (let index = 0; index < templates.length; index++) {
-      if (templates[index].category === categoryName)
+      if (templates[index].categ_name === categoryName)
         arr.push(templates[index])
     }
     console.log(arr);
@@ -67,10 +36,40 @@ export default function Gallery() {
   function handleSearch(query) {
     setSearchQuery(query);
     const filteredTemplates = templates.filter(template =>
-      template.templateName.toLowerCase().includes(query.toLowerCase())
+      template.page_url.toLowerCase().includes(query.toLowerCase())
     );
     setFiltered(filteredTemplates);
   }
+
+  async function getTemplates() {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Cookie", "Cookie_1=value; session_id=d5201e1d49d70a2596e142a78100d6b3ffa3f181");
+
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow"
+    };
+
+    try {
+      setIsLoading(true)
+      const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/templates", requestOptions);
+      const result = await response.json();
+      setTemplates(result.templates);
+      setFiltered(result.templates)
+      setIsLoading(false)
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    getTemplates();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const [role,] = useState("admin")
   const [selected, setSelected] = useState(0);
@@ -80,6 +79,19 @@ export default function Gallery() {
 
   return (
     <div className="flex flex-col justify-center items-center p-10 gap-7 ">
+      {isLoading ? <div className="backdrop-blur-sm absolute w-[100%] h-[90%] z-30 flex justify-center items-center top-10" >
+        <Oval
+          secondaryColor="#F58529"
+          visible={true}
+          height="80"
+          width="80"
+          color="#F58529"
+          ariaLabel="oval-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+
+        />
+      </div> : ""}
       <h1 className="font-semibold text-3xl text-[#0C0C27]" >Check out our newest themes and templates</h1>
       <SearchBar role={role} handleSearch={handleSearch} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <div className="flex flex-wrap justify-center items-center gap-3 px-20 ">
@@ -94,10 +106,12 @@ export default function Gallery() {
           <Link to={"/QuestionsForm"} >
             <img className="w-16 cursor-pointer border-2 border-white hover:border-[#8D93A1] duration-300 transition-all  rounded-full " src={AiButton} alt="Generate with Ai" />
           </Link>
-          <p className="text-[#0C0C27] text-xl font-medium ">OR <span className="underline cursor-pointer hover:text-blue-600 duration-300 transition-all">Create from Scratch </span> </p>
+          <p className="text-[#0C0C27] text-xl font-medium ">OR &nbsp;
+          <CreateScratch/>
+          </p>
         </div>
-        {filtered.map(({ templateName, image }, index) => (
-          <FunnelCard role={role} key={index} templateName={templateName} image={image} index={index} />
+        {filtered.map(({ page_url, image_url, edit_url, template_id }, index) => (
+          <FunnelCard role={role} key={index} templateName={page_url.slice(1)} image={image_url} index={index} edit_url={edit_url} template_id={template_id} />
         ))}
       </div>
     </div>
