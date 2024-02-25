@@ -113,13 +113,23 @@ export default function FunnelBuilder() {
               {steps[selected]?.reference ? steps[selected]?.reference.slice(1) : "Not Created"}
             </h2>
             {steps[selected]?.type === "page" ?
-              <Link to={"/gallery"} >
-                <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl"  >Add Template </Button>
-              </Link>
+              steps[selected]?.reference ?
+                <Link to={steps[selected]?.reference} >
+                  <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl"  >View Page </Button>
+                </Link> :
+                <Link to={"/gallery"} >
+                  <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl"  >Add Template </Button>
+                </Link>
               :
               steps[selected]?.type === "email" ?
-                <CreateEmail id={steps[selected]?.step_id} /> :
-                <CreateEvent id={steps[selected]?.step_id} />}
+                steps[selected]?.reference ? <Link to={steps[selected]?.reference} >
+                  <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl"  >View Email </Button>
+                </Link> :
+                  <CreateEmail id={steps[selected]?.step_id} /> :
+                steps[selected]?.reference ? <Link to={steps[selected]?.reference} >
+                  <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl"  >View Event </Button>
+                </Link> :
+                  <CreateEvent id={steps[selected]?.step_id} />}
           </div>
         </>
         }
