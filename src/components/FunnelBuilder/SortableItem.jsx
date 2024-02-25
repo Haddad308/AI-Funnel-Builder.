@@ -8,6 +8,7 @@ import { CSS } from "@dnd-kit/utilities";
 
 export default function SortableItem({ handleClick, index, reference, name, selected, setSteps, stepslist, id, getSteps }) {
 
+
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: id })
 
 
@@ -15,19 +16,20 @@ export default function SortableItem({ handleClick, index, reference, name, sele
         transform: CSS.Transform.toString(transform),
         transition
     }
+    console.log("styles", style);
 
 
     return (
-
         <div key={index} className="w-full flex items-center justify-between  " >
             <div
                 ref={setNodeRef}
                 style={style}
                 {...attributes}
                 {...listeners}
+                
                 onClick={() => { console.log("test"); handleClick(index); }}
                 className={` ${selected === index ? 'bg-[#E6E6ED] border-l-[6px] border-[#F58529]' : 'bg-white'} hover:bg-[#E6E6ED] cursor-pointer relative rounded-lg w-[90%] transition-all duration-400  shadow-md flex items-center pl-3 py-[2.6px]`} >
-                {!reference? (
+                {!reference ? (
                     <img src={empytIcon} alt="empty icon" className="h-5 w-5 my-4" />
                 ) : (
                     <img src={DoneIcon} alt="done icon" className="h-4 w-4 my-4" />
@@ -38,7 +40,7 @@ export default function SortableItem({ handleClick, index, reference, name, sele
                 </div>
                 <DeleteStep getSteps={getSteps} selected={selected} index={index} steps={stepslist} id={id} setSteps={setSteps} />
             </div>
-            {!reference? (
+            {!reference ? (
                 <div className={`font-semibold text-2xl text-[#B1B5BE] border-[#B1B5BE] border-2 h-12 w-12 mr-2 flex justify-center items-center rounded-full  relative`}>
                     {index + 1}
                     {index + 1 === stepslist.length ? "" : <div className="absolute bg-[#B1B5BE] h-12 w-[2.48px] rounded-md bottom-[-53px]"></div>}

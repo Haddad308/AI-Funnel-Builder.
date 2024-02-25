@@ -1,13 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "../components/Gallery/SearchBar";
 import TabC from "../components/Gallery/tab";
 import { FunnelCard } from "../components/Gallery/Card";
 import AiButton from "../assets/Images/AI.svg"
 import { Link } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
-import { SelectedStepContext } from "../Context/SelectedStepID";
 import { CreateScratch } from "../components/Gallery/CreateFromScratch";
-// import images from '../assets/templates/adventure_pop_squeeze.png'; 
 
 export default function Gallery() {
   const tabs = ["All", "Sales", "Lead", "Opt-In", "Lead Generation", "Home", "Appointment", "Webinar", "Coupon"]
@@ -15,8 +13,11 @@ export default function Gallery() {
   const [isLoading, setIsLoading] = useState(false);
   const [templates, setTemplates] = useState([])
   const [filtered, setFiltered] = useState([]);
-  const [selectedStep,] = useContext(SelectedStepContext);
-  console.log("Show me the stepID", selectedStep);
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [selected, setSelected] = useState(0);
+
+  const role = isAdmin ? "admin" : ""
+
 
   function filterCategories(categoryName) {
     if (categoryName === "All") {
@@ -46,7 +47,6 @@ export default function Gallery() {
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Cookie", "Cookie_1=value; session_id=d5201e1d49d70a2596e142a78100d6b3ffa3f181");
 
-
     const requestOptions = {
       method: "GET",
       headers: myHeaders,
@@ -66,13 +66,36 @@ export default function Gallery() {
     }
   }
 
+  async function getRole() {
+    console.log("hello from getRole");
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Cookie", "Cookie_1=value; session_id=d5201e1d49d70a2596e142a78100d6b3ffa3f181");
+
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+
+      redirect: "follow"
+    };
+
+    try {
+      const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/is_admin", requestOptions);
+      const result = await response.json();
+      setIsAdmin(result.is_admin);
+    } catch (error) {
+      console.error(error);
+    }
+
+
+  }
+
   useEffect(() => {
     getTemplates();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getRole()
   }, [])
 
-  const [role,] = useState("admin")
-  const [selected, setSelected] = useState(0);
   const handleClick = (elementNumber) => {
     setSelected(elementNumber);
   };
@@ -107,7 +130,7 @@ export default function Gallery() {
             <img className="w-16 cursor-pointer border-2 border-white hover:border-[#8D93A1] duration-300 transition-all  rounded-full " src={AiButton} alt="Generate with Ai" />
           </Link>
           <p className="text-[#0C0C27] text-xl font-medium ">OR &nbsp;
-          <CreateScratch/>
+            <CreateScratch />
           </p>
         </div>
         {filtered.map(({ page_url, image_url, edit_url, template_id }, index) => (

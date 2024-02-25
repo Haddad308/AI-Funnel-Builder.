@@ -1,7 +1,7 @@
 export function changeIndex(items, activeID, overID) {
     // Find the indexes of the items with the provided IDs
-    const activeIndex = items.findIndex(item => item.id === activeID);
-    const overIndex = items.findIndex(item => item.id === overID);
+    const activeIndex = items.findIndex(item => item.step_id === activeID);
+    const overIndex = items.findIndex(item => item.step_id === overID);
 
     // Check if both IDs are found
     if (activeIndex === -1 || overIndex === -1) {
@@ -17,6 +17,5 @@ export function changeIndex(items, activeID, overID) {
     newItems[activeIndex] = newItems[overIndex];
     newItems[overIndex] = temp;
 
-    console.log("Test function", newItems);
     return newItems;
 }

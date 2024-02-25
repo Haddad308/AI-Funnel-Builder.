@@ -30,9 +30,7 @@ export default function FunnelBuilder() {
       setSteps((items) => {
         const updatedItems = changeIndex(items, active.id, over.id);
         // Check if the selected index needs to be updated
-        const selectedIndex = items.findIndex(item => {
-          item.step_id === active.id
-        });
+        const selectedIndex = items.findIndex(item => item.step_id === active.id);
         const newIndex = updatedItems.findIndex(item => item.step_id === active.id);
         if (selectedIndex !== newIndex) {
           setSelected(newIndex);
@@ -139,7 +137,6 @@ export default function FunnelBuilder() {
         {/* Actual Steps here */}
         <div className=" h-screen overflow-scroll flex flex-col gap-5 scrollbar-none pb-4"  >
           <DndContext collisionDetection={closestCorners} sensors={sensors} onDragEnd={handleDragEnd} >
-
             <SortableContext items={steps} strategy={verticalListSortingStrategy} >
               {steps?.map(({ name, reference, step_id }, index) => (
                 <SortableItem
