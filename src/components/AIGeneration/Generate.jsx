@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import {
     Button,
@@ -13,15 +13,14 @@ import {
 import hr from "../../assets/Images/Vector 6.svg"
 import { useFormik } from "formik";
 import * as Yup from 'yup';
-import { useNavigate } from "react-router-dom";
 import ButtonLoader from "../General/ButtonLoader";
+import { SelectedStepContext } from "../../Context/SelectedStepID";
 
 
 export function Generate({ isload, success, setSuccess }) {
-    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
-    // const [selectedStep,] = useContext(SelectedStepContext);
+    const [selectedStep,] = useContext(SelectedStepContext);
 
 
     useEffect(() => {
@@ -56,8 +55,7 @@ export function Generate({ isload, success, setSuccess }) {
             const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/templates/create/ai", requestOptions);
             const result = await response.json();
             setIsLoading(false)
-            console.log(JSON.parse(result.result).page_url);
-            navigate(JSON.parse(result.result).page_url);
+            window.open(window.location.origin + JSON.parse(result.result).page_url, "_self");
         } catch (error) {
             console.error(error);
             setIsLoading(false)
@@ -75,7 +73,7 @@ export function Generate({ isload, success, setSuccess }) {
             page_name: Yup.string().required('Required'),
         }),
         onSubmit: (values) => {
-            // values["step_id"] = selectedStep
+            values["step_id"] = selectedStep
             generate(values)
         },
     });
@@ -95,10 +93,8 @@ export function Generate({ isload, success, setSuccess }) {
                 <form onSubmit={formHandler.handleSubmit}>
                     <DialogBody>
                         <p className="mb-3" >
-
                             Please enter page name:
                         </p>
-
                         <Input
                             id="page_name"
                             name="page_name"

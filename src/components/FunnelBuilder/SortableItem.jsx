@@ -16,7 +16,7 @@ export default function SortableItem({ handleClick, index, reference, name, sele
         transform: CSS.Transform.toString(transform),
         transition
     }
-    console.log("styles", style);
+    // console.log("styles", style);
 
 
     return (

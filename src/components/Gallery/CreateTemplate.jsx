@@ -13,7 +13,6 @@ import {
 import hr from "../../assets/Images/Vector 6.svg"
 import { useFormik } from "formik";
 import * as Yup from 'yup';
-import { useNavigate } from "react-router-dom";
 import ButtonLoader from "../General/ButtonLoader";
 
 
@@ -29,7 +28,6 @@ export function CreateTemplate() {
         { "categ_id": 8, "name": "Webinar" },
         { "categ_id": 9, "name": "Coupon" }]
 
-    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
 
@@ -54,8 +52,7 @@ export function CreateTemplate() {
             const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/templates/create", requestOptions);
             const result = await response.json();
             setIsLoading(false)
-            console.log(JSON.parse(result.result).page_url);
-            navigate(JSON.parse(result.result).page_url);
+            window.open(window.location.origin + JSON.parse(result.result).page_url, "_self");
         } catch (error) {
             console.error(error);
             setIsLoading(false)

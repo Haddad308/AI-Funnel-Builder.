@@ -8,7 +8,6 @@ import {
 } from "@material-tailwind/react";
 import editIcon from "../../assets/Images/edit.svg";
 import { TemplateViewer } from "./TemplateViewer";
-import { Link } from "react-router-dom";
 import { CopyTemplate } from "./CreateCopy";
 
 
@@ -23,7 +22,7 @@ export function FunnelCard({ templateName, image, role, index, edit_url, templat
                 className="m-0 rounded-none flex justify-center "
             >
                 {image ? <img
-                    src={"https://primedenteg-stage-11526440.dev.odoo.com/" + image}
+                    src={"https://primedenteg-stage-11526440.dev.odoo.com" + image}
                     className="w-full"
                     alt="ui/ux review check"
                 /> : <img
@@ -42,9 +41,9 @@ export function FunnelCard({ templateName, image, role, index, edit_url, templat
                 <TemplateViewer Name={templateName} image={image} template_id={template_id} ></TemplateViewer>
             </CardFooter>
             {role === "admin" ? <div className="absolute hover:shadow-md transition-all duration-300 bg-white p-1 rounded-lg cursor-pointer top-2 left-2 group">
-                <Link to={`${edit_url.slice(1) }`} >
-                    <img src={editIcon} className="w-4 h-4 hover:w-5 hover:h-5  transition-all duration-400  group-hover:w-5 group-hover:h-5 " alt="" />
-                </Link>
+                    <img onClick={() => {
+                        window.open(window.location.origin + edit_url, "_self");
+                    }} src={editIcon} className="w-4 h-4 hover:w-5 hover:h-5  transition-all duration-400  group-hover:w-5 group-hover:h-5 " alt="" />
             </div> : ""}
         </Card>
     );

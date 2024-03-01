@@ -1,24 +1,48 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, DialogFooter } from "@material-tailwind/react";
 import Question from "../components/AIGeneration/Question";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Generate } from "../components/AIGeneration/Generate";
 
 
 export default function QuestionsForm() {
   const [isLoading, setIsLoading] = useState(false)
-  const [success,setSuccess] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [answer, setAnswer] = useState()
+
+  async function getAnswers() {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Cookie", "Cookie_1=value; session_id=d5201e1d49d70a2596e142a78100d6b3ffa3f181");
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow"
+    };
+
+    try {
+      console.log("asm gds ");
+      const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/page", requestOptions);
+      const result = await response.json();
+      setAnswer(result.page_data);
+      console.log("asukhkfhads", answer);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const formHandler = useFormik({
     initialValues: {
-      qt1: '',
-      qt2: '',
-      qt3: '',
-      qt4: '',
-      qt5: '',
+      qt1: answer?.qt1,
+      qt2: answer?.qt2,
+      qt3: answer?.qt3,
+      qt4: answer?.qt4,
+      qt5: answer?.qt5,
     },
     validationSchema: Yup.object({
       qt1: Yup.string().required('Required'),
@@ -31,6 +55,10 @@ export default function QuestionsForm() {
       submitQuestions(values)
     },
   });
+
+  useEffect(() => {
+    getAnswers();
+  }, [])
 
 
   async function submitQuestions(values) {
@@ -48,7 +76,7 @@ export default function QuestionsForm() {
 
     try {
       setIsLoading(true)
-      await fetch(`https://primedenteg-stage-11526440.dev.odoo.com/funnel/page/create`, requestOptions);
+      await fetch(`https://f64c-45-103-182-61.ngrok-free.app/funnel/page/create`, requestOptions);
       setIsLoading(false)
       toast.success('Successfully Submitted!')
       setSuccess(true)

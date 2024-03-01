@@ -109,26 +109,33 @@ export default function FunnelBuilder() {
           <h1 className="font-semibold text-2xl text-[#0C0C27] mb-10" >{steps[selected]?.name}</h1>
           <p className="font-medium text-xl text-[#0C0C27] mb-10">{steps[selected]?.description}</p>
           <div>
-            <h2 className="text-[#0C0C27] text-2xl font-semibold mb-5" >{steps[selected]?.type} name: &nbsp;
+            {/* <h2 className="text-[#0C0C27] text-2xl font-semibold mb-5" >{steps[selected]?.type} name: &nbsp;
               {steps[selected]?.reference ? steps[selected]?.reference.slice(1) : "Not Created"}
-            </h2>
+            </h2> */}
             {steps[selected]?.type === "page" ?
               steps[selected]?.reference ?
-                <Link to={steps[selected]?.reference} >
-                  <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl"  >View Page </Button>
-                </Link> :
-                <Link to={"/gallery"} >
+                <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl" onClick={() => {
+                  window.open(window.location.origin + steps[selected]?.reference, "_self");
+                }} >View Page </Button>
+                :
+                <Link to={"gallery"} >
                   <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl"  >Add Template </Button>
                 </Link>
               :
               steps[selected]?.type === "email" ?
-                steps[selected]?.reference ? <Link to={steps[selected]?.reference} >
-                  <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl"  >View Email </Button>
-                </Link> :
+                steps[selected]?.reference ?
+                  <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl" onClick={() => {
+                    console.log("444444");
+                    window.open(window.location.origin + steps[selected]?.reference, "_self");
+                  }} >View Email </Button>
+                  :
                   <CreateEmail id={steps[selected]?.step_id} /> :
-                steps[selected]?.reference ? <Link to={steps[selected]?.reference} >
-                  <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl"  >View Event </Button>
-                </Link> :
+                steps[selected]?.reference ?
+                  <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl" onClick={() => {
+                    console.log("444444");
+                    window.open(window.location.origin + steps[selected]?.reference, "_self");
+                  }} >View Event </Button>
+                  :
                   <CreateEvent id={steps[selected]?.step_id} />}
           </div>
         </>

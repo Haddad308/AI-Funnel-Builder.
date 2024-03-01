@@ -11,14 +11,12 @@ import {
 import hr from "../../assets/Images/Vector 6.svg"
 import { useFormik } from "formik";
 import * as Yup from 'yup';
-import { useNavigate } from "react-router-dom";
 import ButtonLoader from "../General/ButtonLoader";
 import { SelectedStepContext } from "../../Context/SelectedStepID";
 
 
 export function CreateScratch() {
 
-    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
     const [selectedStep,] = useContext(SelectedStepContext);
@@ -44,8 +42,7 @@ export function CreateScratch() {
             const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/templates/create/user", requestOptions);
             const result = await response.json();
             setIsLoading(false)
-            console.log(JSON.parse(result.result).page_url);
-            navigate(JSON.parse(result.result).page_url);
+            window.open(window.location.origin + JSON.parse(result.result).page_url, "_self");
         } catch (error) {
             console.error(error);
             setIsLoading(false)
@@ -72,7 +69,7 @@ export function CreateScratch() {
 
     return (
         <>
-            <span onClick={handleOpen} className="underline cursor-pointer hover:text-blue-600 duration-300 transition-all">Create from Scratch </span> 
+            <span onClick={handleOpen} className="underline cursor-pointer hover:text-blue-600 duration-300 transition-all">Create from Scratch </span>
             <Dialog open={open} handler={handleOpen}>
                 <DialogHeader>Create a page from scratch</DialogHeader>
                 <img src={hr} alt="" />
@@ -96,7 +93,7 @@ export function CreateScratch() {
                             {formHandler.touched.page_name && formHandler.errors.page_name ? <div className="mb-2 text-red-600">{formHandler.errors.page_name}</div> : null}
                         </div>
 
-                        
+
                     </DialogBody>
                     <DialogFooter>
                         <Button

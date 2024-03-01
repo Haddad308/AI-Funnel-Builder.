@@ -11,12 +11,10 @@ import {
 import hr from "../../assets/Images/Vector 6.svg"
 import { useFormik } from "formik";
 import * as Yup from 'yup';
-import { useNavigate } from "react-router-dom";
 import ButtonLoader from "../General/ButtonLoader";
 
 
 export function CreateEvent({ id }) {
-    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
 
@@ -41,7 +39,7 @@ export function CreateEvent({ id }) {
             setIsLoading(true)
             const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/event/create", requestOptions);
             const result = await response.json();
-            navigate(JSON.parse(result.result).event_url);
+            window.open(JSON.parse(result.result).event_url, "_self");
             setIsLoading(false)
         } catch (error) {
             console.error(error);
@@ -60,7 +58,7 @@ export function CreateEvent({ id }) {
             name: Yup.string().required('Required'),
         }),
         onSubmit: (values) => {
-            values['id'] = id
+            values['step_id'] = id
             addEvent(values)
         },
     });
@@ -103,7 +101,7 @@ export function CreateEvent({ id }) {
                         </Button>
                         <Button variant="gradient" color="green" type="submit">
                             {isLoading ?
-                                <ButtonLoader /> :
+                        <ButtonLoader /> :
                                 <span>Yes</span>
                             }
                         </Button>

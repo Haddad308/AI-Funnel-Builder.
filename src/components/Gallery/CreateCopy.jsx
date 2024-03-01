@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
     Button,
     Dialog,
@@ -12,15 +12,16 @@ import {
 import hr from "../../assets/Images/Vector 6.svg"
 import { useFormik } from "formik";
 import * as Yup from 'yup';
-import { useNavigate } from "react-router-dom";
 import ButtonLoader from "../General/ButtonLoader";
+import { SelectedStepContext } from "../../Context/SelectedStepID";
 
 
 export function CopyTemplate({ template_id }) {
 
-    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
+    const [selectedStep, ] = useContext(SelectedStepContext);
+
 
 
     const handleOpen = () => setOpen(!open);
@@ -44,8 +45,7 @@ export function CopyTemplate({ template_id }) {
             const response = await fetch(`https://primedenteg-stage-11526440.dev.odoo.com/funnel/templates/copy/${template_id}`, requestOptions);
             const result = await response.json();
             setIsLoading(false)
-            console.log(JSON.parse(result.result).page_url);
-            navigate(JSON.parse(result.result).page_url);
+            window.open(window.location.origin + JSON.parse(result.result).page_url, "_self");
         } catch (error) {
             console.error(error);
             setIsLoading(false)
@@ -63,6 +63,7 @@ export function CopyTemplate({ template_id }) {
             page_name: Yup.string().required('Required'),
         }),
         onSubmit: (values) => {
+            values["step_id"] = selectedStep
             copyTemplate(values, template_id)
         },
     });

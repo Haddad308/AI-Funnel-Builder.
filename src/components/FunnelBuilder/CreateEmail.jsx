@@ -12,12 +12,10 @@ import {
 import hr from "../../assets/Images/Vector 6.svg"
 import { useFormik } from "formik";
 import * as Yup from 'yup';
-import { useNavigate } from "react-router-dom";
 import ButtonLoader from "../General/ButtonLoader";
 
 
 export function CreateEmail({ id }) {
-    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
 
@@ -43,7 +41,7 @@ export function CreateEmail({ id }) {
             const response = await fetch("https://primedenteg-stage-11526440.dev.odoo.com/funnel/email/create", requestOptions);
             const result = await response.json();
             setIsLoading(false)
-            navigate(JSON.parse(result.result).email_url);
+            window.open(window.location.origin + JSON.parse(result.result).email_url, "_self");
         } catch (error) {
             console.error(error);
             setIsLoading(false)
@@ -61,7 +59,7 @@ export function CreateEmail({ id }) {
             subject: Yup.string().required('Required'),
         }),
         onSubmit: (values) => {
-            values['id'] = id
+            values['step_id'] = id
             addEmail(values)
         },
     });

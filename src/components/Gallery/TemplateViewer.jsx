@@ -41,7 +41,7 @@ export function TemplateViewer({ Name, image, template_id }) {
                         <img
                             alt="nature"
                             className="h-full w-full rounded-lg  object-fill"
-                            src={"https://primedenteg-stage-11526440.dev.odoo.com/" + image}
+                            src={"https://primedenteg-stage-11526440.dev.odoo.com" + image}
                         /> :
                         <img
                             src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png"
