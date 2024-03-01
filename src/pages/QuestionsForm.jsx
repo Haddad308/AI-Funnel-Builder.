@@ -153,7 +153,7 @@ export default function QuestionsForm() {
             color="gray"
             className="mr-1"
           >
-            <Link to={"/gallery"} >
+            <Link to={"/home/gallery"} >
               <span>Close</span>
             </Link>
           </Button>

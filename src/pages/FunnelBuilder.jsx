@@ -99,7 +99,6 @@ export default function FunnelBuilder() {
           ariaLabel="oval-loading"
           wrapperStyle={{}}
           wrapperClass=""
-
         />
       </div> : ""}
 
@@ -108,17 +107,14 @@ export default function FunnelBuilder() {
           <StatusButton status={steps[selected]?.reference} />
           <h1 className="font-semibold text-2xl text-[#0C0C27] mb-10" >{steps[selected]?.name}</h1>
           <p className="font-medium text-xl text-[#0C0C27] mb-10">{steps[selected]?.description}</p>
-          <div>
-            {/* <h2 className="text-[#0C0C27] text-2xl font-semibold mb-5" >{steps[selected]?.type} name: &nbsp;
-              {steps[selected]?.reference ? steps[selected]?.reference.slice(1) : "Not Created"}
-            </h2> */}
+          <div>     
             {steps[selected]?.type === "page" ?
               steps[selected]?.reference ?
                 <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl" onClick={() => {
                   window.open(window.location.origin + steps[selected]?.reference, "_self");
                 }} >View Page </Button>
                 :
-                <Link to={"gallery"} >
+                <Link to={"/home/gallery"} >
                   <Button className="bg-[#F58529] transition-all duration-300 normal-case font-semibold text-xl"  >Add Template </Button>
                 </Link>
               :

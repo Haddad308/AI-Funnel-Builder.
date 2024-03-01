@@ -112,7 +112,6 @@ export default function Gallery() {
           ariaLabel="oval-loading"
           wrapperStyle={{}}
           wrapperClass=""
-
         />
       </div> : ""}
       <h1 className="font-semibold text-3xl text-[#0C0C27]" >Check out our newest themes and templates</h1>
@@ -126,7 +125,7 @@ export default function Gallery() {
         <div className="bg-white w-[384px]  transition-all duration-300 hover:shadow-lg rounded-lg gap-3 flex flex-col justify-center items-center p-7 border-2 border-dashed border-[#8D93A1]" >
           <h1 className="text-[#0C0C27] text-3xl font-semibold" >Create with AI</h1>
           <p className="text-[#0C0C27] text-xl font-medium">Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum.</p>
-          <Link to={"QuestionsForm"} >
+          <Link to={"/home/QuestionsForm"} >
             <img className="w-16 cursor-pointer border-2 border-white hover:border-[#8D93A1] duration-300 transition-all  rounded-full " src={AiButton} alt="Generate with Ai" />
           </Link>
           <p className="text-[#0C0C27] text-xl font-medium ">OR &nbsp;
