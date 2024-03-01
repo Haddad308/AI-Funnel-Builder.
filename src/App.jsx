@@ -10,8 +10,9 @@ import SelectedStepContextProvider from "./Context/SelectedStepID"
 
 let routers = createBrowserRouter([
   {
-    path: "home", element: <Layout />, children: [
+    path: "", element: <Layout />, children: [
       { index: true, element: <Funnels /> },
+      { path: "home", element: <Funnels /> },
       { path: "FunnelBuilder", element: <FunnelBuilder /> },
       { path: "Gallery", element: <Gallery /> },
       { path: "QuestionsForm", element: <QuestionsForm /> }

@@ -148,15 +148,15 @@ export default function QuestionsForm() {
           touched={formHandler.touched.qt5}
         />
         <DialogFooter>
-          <Button
-            variant="text"
-            color="gray"
-            className="mr-1"
-          >
-            <Link to={"/home/gallery"} >
+          <Link to={"/gallery"} >
+            <Button
+              variant="text"
+              color="gray"
+              className="mr-1"
+            >
               <span>Close</span>
-            </Link>
-          </Button>
+            </Button>
+          </Link>
           <Generate isload={isLoading} success={success} setSuccess={setSuccess} />
         </DialogFooter>
       </form>

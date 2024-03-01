@@ -13,7 +13,7 @@ export default function Funnels() {
         <div className="flex flex-col h-full items-center p-10" >
             <h1 className="text-2xl font-semibold mt-4 mb-5" >What type of funnel do you want to build?</h1>
             <div className=" grid grid-rows-2  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full h-full p-10 pt-1">
-                <FunnelCard text={"Sales Funnel"} Icon={SalesFunnelIcon} to={"FunnelBuilder"} />
+                <FunnelCard text={"Sales Funnel"} Icon={SalesFunnelIcon} to={"/FunnelBuilder"} />
                 <FunnelCard text={"Lead Generation"} Icon={LeadGenerationIcon} />
                 <FunnelCard text={"Home"} Icon={HomeIcon} />
                 <FunnelCard text={"Opt-IN"} Icon={OptInlIcon} />
